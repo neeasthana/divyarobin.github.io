@@ -1,176 +1,217 @@
-;(function () {
-	
+(function($) {
+
 	'use strict';
 
+	// bootstrap dropdown hover
+
+  // loader
+  var loader = function() {
+    setTimeout(function() { 
+      if($('#loader').length > 0) {
+        $('#loader').removeClass('show');
+      }
+    }, 1);
+  };
+  loader();
+
+	
+	$('nav .dropdown').hover(function(){
+		var $this = $(this);
+		$this.addClass('show');
+		$this.find('> a').attr('aria-expanded', true);
+		$this.find('.dropdown-menu').addClass('show');
+	}, function(){
+		var $this = $(this);
+			$this.removeClass('show');
+			$this.find('> a').attr('aria-expanded', false);
+			$this.find('.dropdown-menu').removeClass('show');
+	});
 
 
-	// iPad and iPod detection	
-	var isiPad = function(){
-		return (navigator.platform.indexOf("iPad") != -1);
-	};
-
-	var isiPhone = function(){
-	    return (
-			(navigator.platform.indexOf("iPhone") != -1) || 
-			(navigator.platform.indexOf("iPod") != -1)
-	    );
-	};
+  var offcanvas_toggle = $('.js-offcanvas-toggle');
+  offcanvas_toggle.on('click', function() {
 
 
-	var fullHeight = function() {
+    if ( $('body').hasClass('offcanvas-open') ) {
+      $('body').removeClass('offcanvas-open');
+    } else {
+      $('body').addClass('offcanvas-open');
+    }
 
-		$('.js-fullheight').css('height', $(window).height());
-		$(window).resize(function(){
-			$('.js-fullheight').css('height', $(window).height());
-		});
+  });
 
-	};
 
-	var burgerMenu = function() {
+  $(document).click(function(e) {
+    var container = $('.js-offcanvas-toggle, #offcanvas_menu');
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+      if ( $('body').hasClass('offcanvas-open') ) {
+        $('body').removeClass('offcanvas-open');
+      }
+    }
+  });
 
-		$('.js-colorlib-nav-toggle').on('click', function(event) {
-			event.preventDefault();
-			var $this = $(this);
-			if( $('body').hasClass('menu-show') ) {
-				$('body').removeClass('menu-show');
-				$('#colorlib-main-nav > .js-colorlib-nav-toggle').removeClass('show');
-			} else {
-				$('body').addClass('menu-show');
-				setTimeout(function(){
-					$('#colorlib-main-nav > .js-colorlib-nav-toggle').addClass('show');
-				}, 900);
-			}
-		})
-	};
 
-	// Animations
+  $('#date-countdown').countdown('2020/10/10', function(event) {
+  var $this = $(this).html(event.strftime(''
+    + '<span class="countdown-block"><span class="label">%w</span> weeks </span>'
+    + '<span class="countdown-block"><span class="label">%d</span> days </span>'
+    + '<span class="countdown-block"><span class="label">%H</span> hr </span>'
+    + '<span class="countdown-block"><span class="label">%M</span> min </span>'
+    + '<span class="countdown-block"><span class="label">%S</span> sec</span>'));
+});
+
+	// home slider
+	$('.home-slider').owlCarousel({
+    loop:true,
+    autoplay: true,
+    margin:10,
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    nav:true,
+    autoplayHoverPause: false,
+    items: 1,
+    navText : ["<span class='ion-chevron-left'></span>","<span class='ion-chevron-right'></span>"],
+    responsive:{
+      0:{
+        items:1,
+        nav:false
+      },
+      600:{
+        items:1,
+        nav:false
+      },
+      1000:{
+        items:1,
+        nav:true
+      }
+    }
+	});
+
+
+  // home slider
+  $('.testimony-slider').owlCarousel({
+    loop:true,
+    autoplay: true,
+    margin:10,
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    nav:false,
+    autoplayHoverPause: false,
+    items: 1,
+    navText : ["<span class='ion-chevron-left'></span>","<span class='ion-chevron-right'></span>"],
+    responsive:{
+      0:{
+        items:1,
+        nav:false
+      },
+      600:{
+        items:1,
+        nav:false
+      },
+      1000:{
+        items:1,
+        nav:false
+      }
+    }
+  });
+
+	// owl carousel
+	var majorCarousel = $('.js-carousel-1');
+	majorCarousel.owlCarousel({
+    loop:true,
+    autoplay: true,
+    stagePadding: 7,
+    margin: 20,
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    nav: true,
+    autoplayHoverPause: true,
+    items: 3,
+    navText : ["<span class='ion-chevron-left'></span>","<span class='ion-chevron-right'></span>"],
+    responsive:{
+      0:{
+        items:1,
+        nav:false
+      },
+      600:{
+        items:2,
+        nav:false
+      },
+      1000:{
+        items:3,
+        nav:true,
+        loop:false
+      }
+  	}
+	});
+
+	// owl carousel
+	var major2Carousel = $('.js-carousel-2');
+	major2Carousel.owlCarousel({
+    loop:true,
+    autoplay: true,
+    stagePadding: 7,
+    margin: 20,
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    nav: true,
+    autoplayHoverPause: true,
+    items: 4,
+    navText : ["<span class='ion-chevron-left'></span>","<span class='ion-chevron-right'></span>"],
+    responsive:{
+      0:{
+        items:1,
+        nav:false
+      },
+      600:{
+        items:3,
+        nav:false
+      },
+      1000:{
+        items:4,
+        nav:true,
+        loop:false
+      }
+  	}
+	});
+
 
 	var contentWayPoint = function() {
 		var i = 0;
-		$('.animate-box').waypoint( function( direction ) {
+		$('.element-animate').waypoint( function( direction ) {
 
-			if( direction === 'down' && !$(this.element).hasClass('animated') ) {
+			if( direction === 'down' && !$(this.element).hasClass('element-animated') ) {
 				
 				i++;
 
 				$(this.element).addClass('item-animate');
 				setTimeout(function(){
 
-					$('body .animate-box.item-animate').each(function(k){
+					$('body .element-animate.item-animate').each(function(k){
 						var el = $(this);
 						setTimeout( function () {
 							var effect = el.data('animate-effect');
 							if ( effect === 'fadeIn') {
-								el.addClass('fadeIn animated');
+								el.addClass('fadeIn element-animated');
+							} else if ( effect === 'fadeInLeft') {
+								el.addClass('fadeInLeft element-animated');
+							} else if ( effect === 'fadeInRight') {
+								el.addClass('fadeInRight element-animated');
 							} else {
-								el.addClass('fadeInUp animated');
+								el.addClass('fadeInUp element-animated');
 							}
-
 							el.removeClass('item-animate');
-						},  k * 200, 'easeInOutExpo' );
+						},  k * 100);
 					});
 					
 				}, 100);
 				
 			}
 
-		} , { offset: '85%' } );
+		} , { offset: '95%' } );
 	};
+	contentWayPoint();
 
 
-	var counter = function() {
-		$('.js-counter').countTo({
-			 formatter: function (value, options) {
-	      return value.toFixed(options.decimals);
-	    },
-		});
-	};
 
-	var counterWayPoint = function() {
-		if ($('#colorlib-counter').length > 0 ) {
-			$('#colorlib-counter').waypoint( function( direction ) {
-										
-				if( direction === 'down' && !$(this.element).hasClass('animated') ) {
-					setTimeout( counter , 400);					
-					$(this.element).addClass('animated');
-				}
-			} , { offset: '90%' } );
-		}
-	};
-
-	// Owl Carousel
-	var owlCarouselFeatureSlide = function() {
-		var owl = $('.owl-carousel1');
-		owl.owlCarousel({
-			animateOut: 'fadeOut',
-		   animateIn: 'fadeIn',
-		   autoplay: true,
-		   loop:true,
-		   margin:0,
-		   nav:true,
-		   dots: false,
-		   autoHeight: true,
-		   responsive:{
-		      0:{
-		         items:1
-		      },
-		      600:{
-		         items:2
-		      },
-		      1000:{
-		         items:3
-		      }
-		   },
-		   navText: [
-		      "<i class='icon-arrow-left3 owl-direction'></i>",
-		      "<i class='icon-arrow-right3 owl-direction'></i>"
-	     	]
-		});
-		var owl2 = $('.owl-carousel');
-		owl2.owlCarousel({
-			animateOut: 'fadeOut',
-		   animateIn: 'fadeIn',
-		   autoplay: true,
-		   loop:true,
-		   margin:0,
-		   nav:false,
-		   dots: true,
-		   autoHeight: true,
-		   items: 1,
-		   navText: [
-		      "<i class='icon-arrow-left3 owl-direction'></i>",
-		      "<i class='icon-arrow-right3 owl-direction'></i>"
-	     	]
-		});
-		var owl3 = $('.owl-carousel3');
-		owl3.owlCarousel({
-			animateOut: 'fadeOut',
-		   animateIn: 'fadeIn',
-		   autoplay: true,
-		   loop:true,
-		   margin:0,
-		   nav:false,
-		   dots: false,
-		   autoHeight: true,
-		   items: 1,
-		   navText: [
-		      "<i class='icon-arrow-left3 owl-direction'></i>",
-		      "<i class='icon-arrow-right3 owl-direction'></i>"
-	     	]
-		});	
-	};
-
-	
-
-
-	// Document on load.
-	$(function(){
-		fullHeight();
-		burgerMenu();
-		counterWayPoint();
-		contentWayPoint();
-		owlCarouselFeatureSlide();
-	});
-
-
-}());
+})(jQuery);
